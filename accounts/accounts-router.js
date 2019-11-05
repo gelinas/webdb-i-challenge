@@ -59,13 +59,11 @@ router.get('/:id', (req, res) => {
 
 router.put('/:id', (req, res) => {
     // const id = req.params.id;
-    // const changes = req.body;
+    const changes = req.body;
     knex('accounts')
         .where({ id: req.params.id })
         // .where('id', '=', req.params.id)
-        .update({
-            "name": "test"
-        })
+        .update(changes)
         .then(count => { // count: how many record rows were updated
             res.status(200).json(count);
         })
