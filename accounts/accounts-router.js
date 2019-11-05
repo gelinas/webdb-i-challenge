@@ -6,7 +6,19 @@ const knex = require('../data/dbConfig.js');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    knex.select('*').from('accounts')
+    console.log(req.query)
+    let query = knex.select('*').from('accounts')
+    if (req.query.name) {
+        query = query.where({
+          name: req.query.name
+        });
+      }
+    if (req.query.orderBy && req.query.orderDir) {
+        query = query.orderBy(req.query.orderBy, req.query.orderDir);
+    } else if (req.query.orderBy) {
+        query = query.orderBy(req.query.orderBy);
+    }
+    query
         .then(accounts => {
             res.status(200).json(accounts);
         })
@@ -75,4 +87,4 @@ router.delete('/:id', (req, res) => {
         });
 });
 
-module.exports = router;
+module.exports = router;``
